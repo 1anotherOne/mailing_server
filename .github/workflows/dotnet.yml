@@ -17,9 +17,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Install dependencies
+      run: dotnet restore ./Server/Server/Server.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore ./Server/Server/Server.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal
