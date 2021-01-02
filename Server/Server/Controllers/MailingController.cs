@@ -22,9 +22,14 @@ namespace Server.Controllers
         {
             return await Task.Run<IActionResult>(()=>
             {
-                
-                _emailSenderHelper.SendEmail(destinationAdress);
-                return Ok();
+                try
+                {
+                    _emailSenderHelper.SendEmail(destinationAdress);
+                    return Ok();
+                } catch(Exception err)
+                {
+                    return new BadRequestObjectResult(err.Message);
+                }
             });
         }
     }
