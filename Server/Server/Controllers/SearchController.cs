@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 using NewsAPI.Models;
 using Server.Handlers;
-
+using Server.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Server.Controllers
 {
@@ -15,16 +15,17 @@ namespace Server.Controllers
     public class SearchController : ControllerBase
     {
         private readonly SearchHandler handler_;
-
         public SearchController(SearchHandler handler)
         {
             handler_ = handler;
         }
-        [HttpGet]
-        public List<Article> Get()
+
+        [HttpGet("get")]
+        public async Task<List<Article>> Get(string query)
         {
-            
-            return handler_.search();
+            return await Task.Run(() => {
+                return handler_.search(query);
+            });
         }
     }
 }

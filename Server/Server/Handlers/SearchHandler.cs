@@ -5,25 +5,27 @@ using System.Threading.Tasks;
 using NewsAPI;
 using NewsAPI.Models;
 using NewsAPI.Constants;
+using Server.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Handlers
 {
     public class SearchHandler
     {
+        private NewsApiClient newsApiClient;
         public SearchHandler()
         {
-
         }
 
-        public List<Article> search()
+        public List<Article> search(string query)
         {
-            var newsApiClient = new NewsApiClient(" feb654e16f7645b9ad90a8ce3bda0d55");
+            newsApiClient = new NewsApiClient(" feb654e16f7645b9ad90a8ce3bda0d55");
             var articlesResponse = newsApiClient.GetEverything(new EverythingRequest
             {
-                Q = "Politics",
+                Q = query,
                 SortBy = SortBys.Popularity,
                 Language = Languages.EN,
-                From = new DateTime(2021, 4, 21)
+                From = DateTime.Today
             });
             var articleList = new List<Article>();
             if (articlesResponse.Status == Statuses.Ok)
