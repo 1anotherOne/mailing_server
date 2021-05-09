@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace Server.Controllers
             {
                 try
                 {
-                    _emailSenderHelper.SendEmail(destinationAdress);
+                    _emailSenderHelper.SendEmailTest(destinationAdress);
                     return Ok();
                 } catch(Exception err)
                 {

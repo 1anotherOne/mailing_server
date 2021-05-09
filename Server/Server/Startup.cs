@@ -10,7 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Server.Handlers;
 using Server.Helpers;
 
 namespace Server
@@ -27,10 +26,10 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<SearchHandler>();
+            services.AddTransient<SearchHelper>();
+            services.AddTransient<EmailSenderHelper>();
             services.AddControllers();
             services.AddMvc();
-            services.AddTransient<EmailSenderHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

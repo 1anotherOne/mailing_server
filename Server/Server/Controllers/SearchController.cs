@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NewsAPI.Models;
-using Server.Handlers;
+using Server.Helpers;
 using Server.Models;
 using Newtonsoft.Json.Linq;
 
@@ -14,17 +14,30 @@ namespace Server.Controllers
     [Route("[controller]")]
     public class SearchController : ControllerBase
     {
-        private readonly SearchHandler handler_;
-        public SearchController(SearchHandler handler)
+        private readonly SearchHelper _searchHelper;
+        private readonly EmailSenderHelper _emailSenderHelper;
+        public SearchController(SearchHelper searchHelper, EmailSenderHelper emailSenderHelper)
         {
-            handler_ = handler;
+            _searchHelper = searchHelper;
+            _emailSenderHelper = emailSenderHelper;
         }
 
         [HttpGet("get")]
-        public async Task<List<Article>> Get(string query)
+        public async Task<List<Article>> Get(string query, string date=null)
         {
             return await Task.Run(() => {
-                return handler_.search(query);
+                return _searchHelper.Search(query, date);
+            });
+        }
+
+        [HttpGet("getViaEmail")]
+        public async Task<IActionResult> GetViaEmail(string query, string destination, string date=null)
+        {
+            return await Task.Run<IActionResult>(() =>
+            {
+                List<Article> articles = _searchHelper.Search(query, date);
+                _emailSenderHelper.SendEmail(query, destination, articles);
+                return Ok();
             });
         }
     }
