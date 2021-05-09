@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Server.Handlers;
+using Server.Helpers;
 
 namespace Server
 {
@@ -29,6 +30,7 @@ namespace Server
             services.AddSingleton<SearchHandler>();
             services.AddControllers();
             services.AddMvc();
+            services.AddTransient<EmailSenderHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
